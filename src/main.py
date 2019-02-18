@@ -3,7 +3,6 @@ import utils.functions as f
 
 print('Consulta Saldo Transurc\n')
 
-
 session = f.create_session()
 
 first_response = f.send_first_request(session)
@@ -12,13 +11,25 @@ val.second_url = f.find_second_url(first_response)
 
 second_response = f.send_second_request(session, val.second_url)
 
-# Create value of the header 'Cookie' necessary to the third request
+# Create value of the header 'Cookie' necessary to the third request and last request
 cookie_value = f.make_cookie_value(session)
 f.add_new_header(val.headers__3, 'Cookie', cookie_value)
+f.add_new_header(val.headers__4, 'Cookie', cookie_value)
 
 third_response = f.send_third_request(session, val.THIRD_URL)
 
-f.save_consulta_saldo_form_file_html(third_response)
+# f.save_file(third_response, 'consulta_saldo_form_file.html')
 
-print('The session is apparently correct. Fill the form and make a POST request (?) GOOD LUCK')
+user_data = {'num_aplicacao':      input('\n\n\nDigite o número antes do cartão (XX): '),
+             'num_cartao':         input('Digite o número do seu cartão (XX): '),
+             'digito_verificador': input('Digite o número verificador (X): '),
+             'data_nascimento':    input('Digite a sua data de nascimento (DD/MM/AAAA): ')}
 
+# Last response contains the balance
+last_response = f.send_last_request(session, third_response, user_data)
+
+balance = f.get_balance(last_response)
+
+print('Seu saldo no bilhete único é ' + balance)
+
+# f.save_file(last_response, 'saldo_result.html')

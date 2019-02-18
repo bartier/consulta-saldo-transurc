@@ -1,10 +1,12 @@
 FIRST_URL = 'https://www.transurc.com.br/index.php/servicos/saldo/'
 
-second_url = ''  # dynamically discovered with the FIRST_URL
+second_url = ''  # Descoberta dinâmicamente com a resposta da FIRST_URL
 
 THIRD_URL = 'https://www.transurc.com.br/SiteApp2018/SaldoCartao/Default.aspx'
 
-# Header of the first request (FIRST_URL)
+LAST_URL = THIRD_URL
+
+# Header da chamada para FIRST_URL
 headers__1 = {
     'Connection': 'keep-alive',
     'Upgrade-Insecure-Requests': '1',
@@ -15,11 +17,22 @@ headers__1 = {
     'Host': 'www.transurc.com.br'
 }
 
-# Header of the second request (second_url)
+# Header da chamada para second_url
 headers__2 = headers__1.copy()
 headers__2['Referer'] = 'https://www.transurc.com.br/index.php/servicos/saldo/'
 
-# Header of the third request (THIRD_URL)
+# Header da chamada para THIRD_URL
 headers__3 = headers__1.copy()
 headers__3['Cache-Control'] = 'max-age=0'
-headers__3['Cookie'] = 'dynamic_value'  # The value of 'Cookie' is find in the second request
+headers__3['Cookie'] = '?'  # The value of 'Cookie' is find in the second request
+
+# Header da chamada para LAST_URL
+headers__4 = headers__3.copy()
+headers__4['Content-Type'] = 'application/x-www-form-urlencoded'
+headers__4['Referer'] = 'https://www.transurc.com.br/SiteApp2018/SaldoCartao/Default.aspx'
+headers__4['Origin'] = 'https://www.transurc.com.br'
+
+# Body da LAST_URL
+payload__4 = {
+
+}
