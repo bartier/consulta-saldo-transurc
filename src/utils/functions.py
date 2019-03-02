@@ -4,38 +4,38 @@ import requests
 
 
 def create_session():
-    print('Criado uma sessão para tornar todas as chamadas relacionadas\n')
+    #print('Criado uma sessão para tornar todas as chamadas relacionadas\n')
     return requests.Session()
 
 
 def send_first_request(session):
-    print('(1) Enviando chamada para ' + val.FIRST_URL)
+    #print('(1) Enviando chamada para ' + val.FIRST_URL)
 
     response = session.get(val.FIRST_URL, headers=val.headers__1)
 
-    print('Primeira chamada para ' + val.FIRST_URL + ' concluída')
-    print('Cookies adicionados de ' + val.FIRST_URL + ': ' + str(session.cookies.get_dict()) + '\n')
+    #print('Primeira chamada para ' + val.FIRST_URL + ' concluída')
+    #print('Cookies adicionados de ' + val.FIRST_URL + ': ' + str(session.cookies.get_dict()) + '\n')
 
     return response
 
 
 def send_second_request(session, second_url):
-    print('(2) Enviando chamada para ' + second_url)
+    #print('(2) Enviando chamada para ' + second_url)
 
     response = session.get(second_url, headers=val.headers__2)
 
-    print('Segunda chamada para ' + second_url + ' concluída')
-    print('Cookies adicionados de ' + second_url + ': ' + str(session.cookies.get_dict()) + '\n')
+    #print('Segunda chamada para ' + second_url + ' concluída')
+    #print('Cookies adicionados de ' + second_url + ': ' + str(session.cookies.get_dict()) + '\n')
 
     return response
 
 
 def send_third_request(session, third_url):
-    print('\n(3) Enviando chamada para ' + third_url)
+    #print('\n(3) Enviando chamada para ' + third_url)
 
     response = session.get(third_url, headers=val.headers__3)
 
-    print('Terceira chamada para ' + third_url + ' concluída\n')
+    #print('Terceira chamada para ' + third_url + ' concluída\n')
 
     return response
 
@@ -106,11 +106,11 @@ def send_last_request(session, third_response, user_data):
                 pp2018/bundles/font-awesome?v=3iEv8vqPidB6TVfgNOGrLoJr-SPH_mV3Y
                 wpggEk2_ao1"""
 
-    print('\n(4) Enviando última chamada para ' + val.LAST_URL)
+    #print('\n(4) Enviando última chamada para ' + val.LAST_URL)
 
     response = session.post(val.LAST_URL, headers=val.headers__4, data=val.payload__4)
 
-    print('Última chamada para ' + val.LAST_URL + ' concluída\n')
+    #print('Última chamada para ' + val.LAST_URL + ' concluída\n')
 
     return response
 
