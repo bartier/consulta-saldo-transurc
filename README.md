@@ -4,19 +4,29 @@ Consulte o saldo do seu bilhete único da Transurc via script.
 
 ## Getting Started
 
-Execute o script main.py e siga o passo a passo.
+Primeiro clone esse repositório (ou faça um fork e substitua /bartier pelo seu user do GitHub)
 
-Utilizado PyCharm para desenvolvimento. Recomendo o PyCharm para executar o script (enquanto não há release). Basta abrir o projeto como qualquer outro na IDE.
+```
+git clone https://github.com/bartier/consulta-saldo-transurc.git
+```
 
-##### Versão do Python: >3.6
-##### Utilizado Pipenv
+Construa a imagem consulta-saldo-transurc com o Dockerfile
 
-## Improvements
-- [ ] Melhorar README
-- [ ] Deixar opcional logs das chamadas
-- [ ] Transformar as funções em classes para organizar o projeto (Modelo OO)
-- [ ] Melhorar validação do captcha
-- [ ] Refatorar código
+```
+docker build -t consulta-saldo-transurc .
+```
+
+## Running
+
+Para executar o projeto, utilize o comando do docker com os dados de consulta:
+
+Considere *X* um número qualquer, *DD* o dia do aniversário, *MM* o mês e *AA* o ano.
+
+```
+docker run -i --rm consulta-saldo-transurc <num_aplicacao> <num_cartao> <dig_verificador> <data_nasc>
+docker run -i --rm consulta-saldo-transurc XX XXXXXXXX XX X DD/MM/AAAA
+```
+
 
 ## Contributing
 
