@@ -4,13 +4,19 @@ Consulte o saldo do seu bilhete único da Transurc via script.
 
 ## Getting Started
 
+### Prerequisites
+
+What things you need to start hacking:
+
+- [Docker](https://docs.docker.com/install/)
+
 Primeiro clone esse repositório (ou faça um fork e substitua /bartier pelo seu user do GitHub)
 
 ```
 git clone https://github.com/bartier/consulta-saldo-transurc.git
 ```
 
-Construa a imagem consulta-saldo-transurc com o Dockerfile
+Na raiz do projeto, construa a imagem consulta-saldo-transurc com o Dockerfile
 
 ```
 docker build -t consulta-saldo-transurc .
