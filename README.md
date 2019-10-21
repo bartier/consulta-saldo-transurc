@@ -2,11 +2,11 @@
 
 Consulte o saldo do seu bilhete único da Transurc via script.
 
-## Getting Started
+## Instruções para começar
 
-### Prerequisites
+### Pré-requisitos
 
-What things you need to start hacking:
+O que você precisa pra começar:
 
 - [Docker](https://docs.docker.com/install/)
 
@@ -22,7 +22,7 @@ Na raiz do projeto, construa a imagem consulta-saldo-transurc com o Dockerfile
 docker build -t consulta-saldo-transurc .
 ```
 
-## Running
+## Execução
 
 Para executar o projeto, utilize o comando do docker com os dados de consulta:
 
@@ -33,11 +33,10 @@ docker run -i --rm consulta-saldo-transurc <num_aplicacao> <num_cartao> <dig_ver
 docker run -i --rm consulta-saldo-transurc XX XXXXXXXX XX X DD/MM/AAAA
 ```
 
+## Contribuição
 
-## Contributing
+Este projeto é open-source. Sinta-se à vontade para contribuir!
 
-Please feel free for submitting pull requests to us.
+## Licença
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+Esse projeto é licenciado através de uma licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
