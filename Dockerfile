@@ -1,9 +1,11 @@
-FROM python:3.6-alpine3.9
+FROM python:3.6
 
-COPY /src /app
+RUN pip install pipenv
+COPY Pipfile* /tmp/
+RUN cd /tmp && pipenv lock --requirements > requirements.txt
 
+RUN pip install -r /tmp/requirements.txt
+
+COPY . /app
 WORKDIR /app
-
-RUN pip install beautifulsoup4 && pip install requests
-
-ENTRYPOINT [ "python", "./main.py" ]
+CMD python src/main.py --help

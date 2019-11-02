@@ -1,57 +1,75 @@
-# coding=utf-8
-import sys
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import time
 
-import config
-from utils import (
-    create_session, send_third_request, send_last_request,
-    make_cookie_value, add_new_header, get_balance,
-)
+import click
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options as ChromeOptions
 
-
-def start():
-    print('Consulta Saldo Transurc\n')
-
-    session = create_session()
-
-    # first_response = send_first_request(session)
-    # second_url = find_second_url(first_response)
-    # second_response = send_second_request(session, second_url)
-
-    # Create value of the header 'Cookie' necessary to the
-    # third request and last request
-    cookie_value = make_cookie_value(session)
-    add_new_header(config.HEADERS_3, 'Cookie', cookie_value)
-    add_new_header(config.HEADERS_4, 'Cookie', cookie_value)
-
-    third_response = send_third_request(session, config.THIRD_URL)
-
-    # save_file(third_response, 'consulta_saldo_form_file.html')
-
-    # user_data = {
-    #     'num_aplicacao': input('Digite o número antes do cartão (XX): '),
-    #     'num_cartao': input('Digite o número do seu cartão (XX): '),
-    #     'digito_verificador': input('Digite o número verificador (X): '),
-    #     'data_nascimento': input(
-    #         'Digite a sua data de nascimento (DD/MM/AAAA):'
-    #     )
-    # }
-
-    user_data = {
-        'num_aplicacao': sys.argv[1],
-        'num_cartao': sys.argv[2],
-        'digito_verificador': sys.argv[3],
-        'data_nascimento': sys.argv[4],
-    }
-
-    # Last response contains the balance
-    last_response = send_last_request(session, third_response, user_data)
-
-    balance = get_balance(last_response)
-
-    print('\nSeu saldo no bilhete único é ' + balance)
-
-    # save_file(last_response, 'saldo_result.html')
+from BalancePage import BalancePage
+from Imgur import Imgur
 
 
-if __name__ == '__main__':
-    start()
+@click.command()
+@click.option("-n", "--num-aplicacao", required=True,
+              help="Número da aplicação só pode assumir os valores 03, 04, 07 e 11")
+@click.option("-c", "--cartao", required=True,
+              help="Número do cartão a ser consultado no formato XXXXXXXX, em que X é um algarismo")
+@click.option("-d", "--digito-verificador", required=True, help="Digito verificar do cartão")
+@click.option("-t", "--data-nascimento", required=True, help="Data de nascimento no formato DD/MM/AAAAA")
+@click.option("-m", "--imgur-client-id", required=True,
+              help="A aplicação utiliza o Imgur para realizar o upload do captcha com o objetivo de gerar o link.")
+@click.option("--headless", default=False, is_flag=True,
+              help="Se a flag é utilizada, o browser é iniciado no modo headless, isto é, sem interface "
+                   "gráfica")
+def main(num_aplicacao, cartao, digito_verificador, data_nascimento, imgur_client_id, headless):
+    """ Obtém seu saldo do cartão de bilhete único da Transurc """
+
+    chrome_options = ChromeOptions()
+
+    if headless:
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--window-size=1420,1080')
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-gpu')
+
+    driver = webdriver.Chrome(executable_path="../chromedriver_linux64/chromedriver", chrome_options=chrome_options)
+
+    driver.get("https://www.transurc.com.br/index.php/servicos/saldo/")
+    driver.switch_to.frame(driver.find_element_by_tag_name("iframe"))
+
+    balance_page = BalancePage(driver)
+
+    time.sleep(5)
+    balance_page.fill_num_aplicacao(num_aplicacao)
+    balance_page.fill_num_cartao(cartao)
+    balance_page.fill_digito_verificador(digito_verificador)
+    balance_page.fill_data_nascimento(data_nascimento)
+
+    imgur = Imgur(imgur_client_id)
+
+    captcha_image_as_base64 = balance_page.get_captcha_as_base64()
+
+    captcha_link_imgur = imgur.upload_image(captcha_image_as_base64)
+
+    print(f'Captcha --> {captcha_link_imgur}')
+    captcha_from_input = input(f'Acesse o link do captcha e insira aqui: ')
+
+    balance_page.fill_captcha(captcha_from_input)
+
+    time.sleep(1)
+
+    balance_page.submit_form()
+
+    balance = balance_page.get_balance()
+
+    if balance is None:
+        print("\nNão foi possível obter o saldo do cartão, tente novamente.")
+        exit(1)
+
+    print("\n===== Resultado da Consulta =====\n")
+    print(balance)
+
+
+if __name__ == "__main__":
+    main()
