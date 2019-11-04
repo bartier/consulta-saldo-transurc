@@ -60,6 +60,7 @@ Considere *X* um número qualquer, *DD* o dia do aniversário, *MM* o mês e *AA
 
 ```
 docker run -it --rm consulta-saldo-transurc -n XX -c XXXXXXXX -d X -t DD/MM/AAAA -m <imgur_client_id> --headless
+docker run -it --rm consulta-saldo-transurc -n 03 -c 00123456 -d 4 -t 01/02/1980 -m <imgur_client_id> --headless
 ```
 
 ## Contribuição
