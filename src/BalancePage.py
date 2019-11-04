@@ -28,7 +28,9 @@ class BalancePage:
         select_num_aplicacao.select_by_value(num_aplicacao)
 
     def fill_num_cartao(self, num_cartao):
-        self.driver.find_element_by_id(self.num_cartao__input_id).clear()
+        for i in range(0, 8):
+            self.driver.find_element_by_id(self.num_cartao__input_id).send_keys(Keys.BACK_SPACE)
+            time.sleep(0.2)
 
         for c in num_cartao:
             self.driver.find_element_by_id(self.num_cartao__input_id).send_keys(c)
@@ -73,7 +75,6 @@ class BalancePage:
 
     def get_balance(self):
         try:
-            time.sleep(5)
             balance_text = self.driver.find_element_by_id(self.balance_span_id).text
         except Exception as e:
             print(e)

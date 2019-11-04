@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import pkg_resources
 import time
+import sys
 
 import click
 from selenium import webdriver
@@ -9,13 +11,15 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from BalancePage import BalancePage
 from Imgur import Imgur
 
+chrome_driver_path = pkg_resources.resource_filename("chromedriver_linux64", "chromedriver")
+
 
 @click.command()
 @click.option("-n", "--num-aplicacao", required=True,
               help="Número da aplicação só pode assumir os valores 03, 04, 07 e 11")
 @click.option("-c", "--cartao", required=True,
               help="Número do cartão a ser consultado no formato XXXXXXXX, em que X é um algarismo")
-@click.option("-d", "--digito-verificador", required=True, help="Digito verificar do cartão")
+@click.option("-d", "--digito-verificador", required=True, help="Digito verificador do cartão")
 @click.option("-t", "--data-nascimento", required=True, help="Data de nascimento no formato DD/MM/AAAAA")
 @click.option("-m", "--imgur-client-id", required=True,
               help="A aplicação utiliza o Imgur para realizar o upload do captcha com o objetivo de gerar o link.")
@@ -25,6 +29,7 @@ from Imgur import Imgur
 def main(num_aplicacao, cartao, digito_verificador, data_nascimento, imgur_client_id, headless):
     """ Obtém seu saldo do cartão de bilhete único da Transurc """
 
+    print('Iniciando script...aguarde!')
     chrome_options = ChromeOptions()
 
     if headless:
@@ -33,15 +38,17 @@ def main(num_aplicacao, cartao, digito_verificador, data_nascimento, imgur_clien
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--disable-gpu')
 
-    driver = webdriver.Chrome(executable_path="../chromedriver_linux64/chromedriver", chrome_options=chrome_options)
+    driver = webdriver.Chrome(executable_path=chrome_driver_path, chrome_options=chrome_options)
+    # driver = webdriver.Chrome(executable_path="../chromedriver_linux64/chromedriver", chrome_options=chrome_options)
+    driver.implicitly_wait(10)
 
     driver.get("https://www.transurc.com.br/index.php/servicos/saldo/")
     driver.switch_to.frame(driver.find_element_by_tag_name("iframe"))
 
     balance_page = BalancePage(driver)
 
-    time.sleep(5)
     balance_page.fill_num_aplicacao(num_aplicacao)
+    time.sleep(3)
     balance_page.fill_num_cartao(cartao)
     balance_page.fill_digito_verificador(digito_verificador)
     balance_page.fill_data_nascimento(data_nascimento)
@@ -63,9 +70,11 @@ def main(num_aplicacao, cartao, digito_verificador, data_nascimento, imgur_clien
 
     balance = balance_page.get_balance()
 
+    time.sleep(8)
+
     if balance is None:
         print("\nNão foi possível obter o saldo do cartão, tente novamente.")
-        exit(1)
+        sys.exit(1)
 
     print("\n===== Resultado da Consulta =====\n")
     print(balance)
