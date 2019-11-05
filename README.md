@@ -76,6 +76,19 @@ docker run -it --rm consulta-saldo-transurc -n XX -c XXXXXXXX -d X -t DD/MM/AAAA
 docker run -it --rm consulta-saldo-transurc -n 03 -c 00123456 -d 4 -t 01/02/1980 -m 76e1a6fb36efa6f --headless
 ```
 
+## Execução com interface gráfica
+
+Para executar com uma interface gráfica, basta omitir a flag `--headless`. No entanto, deverá ser usado o ambiente do host ao invés da imagem do Docker para a execução do script. Nesse sentido, utilize o `pipenv` para instalar as dependências e executar o script. 
+
+Dentro do diretrio raiz do projeto, execute:
+
+```
+pipenv install
+pipenv shell
+
+python src/main.py -n XX -c XXXXXXXX -d X -t DD/MM/AAAA -m <imgur_client_id>
+```
+
 ## Contribuição
 
 Este projeto é open-source. Sinta-se à vontade para contribuir!
