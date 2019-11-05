@@ -66,6 +66,7 @@ Considere *X* um número qualquer, *DD* o dia do aniversário, *MM* o mês e *AA
 2. Flag -c XXXXXXXX
 3. Flag -d X
 4. Flag -t DD/MM/AAAAA
+5. Obtido na execução via input do terminal.
 
 
 ```
