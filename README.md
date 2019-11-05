@@ -80,7 +80,7 @@ docker run -it --rm consulta-saldo-transurc -n 03 -c 00123456 -d 4 -t 01/02/1980
 
 Para executar com uma interface gráfica, basta omitir a flag `--headless`. No entanto, deverá ser usado o ambiente do host ao invés da imagem do Docker para a execução do script. Nesse sentido, utilize o `pipenv` para instalar as dependências e executar o script. 
 
-Dentro do diretrio raiz do projeto, execute:
+Dentro do diretório raiz do projeto, execute:
 
 ```
 pipenv install
