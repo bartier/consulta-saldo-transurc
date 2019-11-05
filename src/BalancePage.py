@@ -79,7 +79,13 @@ class BalancePage:
         try:
             balance_text = self.driver.find_element_by_id(self.balance_span_id).text
         except Exception:
-            print("\n" + self.get_alert_message())
+            alert_content = self.get_alert_message()
+
+            if alert_content is not None:
+                print("\n" + self.get_alert_message())
+            else:
+                print('Ocorre um erro muito inesperado, desculpe.')
+                
             with open('output.html', "w+") as file:
                 file.write(self.driver.page_source)
 
