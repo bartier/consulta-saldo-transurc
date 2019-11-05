@@ -51,6 +51,8 @@ Options:
   --headless                     Se a flag é utilizada, o browser é iniciado
                                  no modo headless, isto é, sem interface
                                  gráfica
+  -i, --timeout INTEGER          Timeout para esperar a página ser carrega
+                                 após enviar o formulário e obter o saldo
   --help                         Show this message and exit.
 ```
 
@@ -58,9 +60,20 @@ Para executar o projeto, utilize o comando do docker com os dados de consulta:
 
 Considere *X* um número qualquer, *DD* o dia do aniversário, *MM* o mês e *AA* o ano.
 
+![image](https://user-images.githubusercontent.com/18057391/68170383-487a0900-ff4e-11e9-9a6a-f1f90a78737a.png)
+
+1. Flag -n XX
+2. Flag -c XXXXXXXX
+3. Flag -d X
+4. Flag -t DD/MM/AAAAA
+5. Obtido na execução via input do terminal.
+
+
 ```
 docker run -it --rm consulta-saldo-transurc -n XX -c XXXXXXXX -d X -t DD/MM/AAAA -m <imgur_client_id> --headless
-docker run -it --rm consulta-saldo-transurc -n 03 -c 00123456 -d 4 -t 01/02/1980 -m <imgur_client_id> --headless
+
+#exemplo
+docker run -it --rm consulta-saldo-transurc -n 03 -c 00123456 -d 4 -t 01/02/1980 -m 76e1a6fb36efa6f --headless
 ```
 
 ## Contribuição
