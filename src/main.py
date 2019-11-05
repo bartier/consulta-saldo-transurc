@@ -26,7 +26,9 @@ chrome_driver_path = pkg_resources.resource_filename("chromedriver_linux64", "ch
 @click.option("--headless", default=False, is_flag=True,
               help="Se a flag é utilizada, o browser é iniciado no modo headless, isto é, sem interface "
                    "gráfica")
-def main(num_aplicacao, cartao, digito_verificador, data_nascimento, imgur_client_id, headless):
+@click.option("-i", "--timeout", default=8, required=False,
+              help="Timeout para esperar a página ser carrega após enviar o formulário e obter o saldo")
+def main(num_aplicacao, cartao, digito_verificador, data_nascimento, imgur_client_id, headless, timeout):
     """ Obtém seu saldo do cartão de bilhete único da Transurc """
 
     print('Iniciando script...aguarde!')
@@ -39,7 +41,6 @@ def main(num_aplicacao, cartao, digito_verificador, data_nascimento, imgur_clien
         chrome_options.add_argument('--disable-gpu')
 
     driver = webdriver.Chrome(executable_path=chrome_driver_path, chrome_options=chrome_options)
-    # driver = webdriver.Chrome(executable_path="../chromedriver_linux64/chromedriver", chrome_options=chrome_options)
     driver.implicitly_wait(10)
 
     driver.get("https://www.transurc.com.br/index.php/servicos/saldo/")
@@ -68,9 +69,7 @@ def main(num_aplicacao, cartao, digito_verificador, data_nascimento, imgur_clien
 
     balance_page.submit_form()
 
-    balance = balance_page.get_balance()
-
-    time.sleep(8)
+    balance = balance_page.get_balance(timeout)
 
     if balance is None:
         print("\nNão foi possível obter o saldo do cartão, tente novamente.")

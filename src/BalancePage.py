@@ -73,11 +73,13 @@ class BalancePage:
 
         return alert_content
 
-    def get_balance(self):
+    def get_balance(self, timeout):
+        print(f'Aguardando {timeout}s para obter o saldo do cartão...')
+        time.sleep(timeout)
         try:
             balance_text = self.driver.find_element_by_id(self.balance_span_id).text
-        except Exception as e:
-            print(e)
+        except Exception:
+            print("\n" + self.get_alert_message())
             with open('output.html', "w+") as file:
                 file.write(self.driver.page_source)
 
