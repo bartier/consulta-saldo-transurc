@@ -58,7 +58,7 @@ Options:
 
 Para executar o projeto, utilize o comando do docker com os dados de consulta:
 
-Considere *X* um número qualquer, *DD* o dia do aniversário, *MM* o mês e *AA* o ano.
+Considere *X* um número qualquer (apenas 1 algarismo), *DD* o dia do aniversário (2 algarismos obrigatoriamente), *MM* o mês (2 algarismos obrigatoriamente) e *AAAA* o ano (4 algarismos obrigatoriamente).
 
 ![image](https://user-images.githubusercontent.com/18057391/68170383-487a0900-ff4e-11e9-9a6a-f1f90a78737a.png)
 
