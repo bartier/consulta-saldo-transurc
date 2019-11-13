@@ -41,7 +41,7 @@ def main(num_aplicacao, cartao, digito_verificador, data_nascimento, imgur_clien
         chrome_options.add_argument('--disable-gpu')
 
     driver = webdriver.Chrome(executable_path=chrome_driver_path, chrome_options=chrome_options)
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(3)
 
     driver.get("https://www.transurc.com.br/index.php/servicos/saldo/")
     driver.switch_to.frame(driver.find_element_by_tag_name("iframe"))
@@ -49,7 +49,7 @@ def main(num_aplicacao, cartao, digito_verificador, data_nascimento, imgur_clien
     balance_page = BalancePage(driver)
 
     balance_page.fill_num_aplicacao(num_aplicacao)
-    time.sleep(3)
+    time.sleep(1.3)
     balance_page.fill_num_cartao(cartao)
     balance_page.fill_digito_verificador(digito_verificador)
     balance_page.fill_data_nascimento(data_nascimento)

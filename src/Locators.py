@@ -11,4 +11,6 @@ class Locators:
     captcha_img_id = "CphBody_ASPxCaptcha1_IMG"
     captcha_answer_input_id = "CphBody_ASPxCaptcha1_TB_I"
 
-    balance_span_id = "CphBody_lblSaldoAtual_ES"
+    estudante_balance_span_id = "CphBody_lblSaldoAtual_ES"
+    vale_transporte_balance_div_id = "CphBody_panVT"
+    normal_balance_div_id = "CphBody_panComum"

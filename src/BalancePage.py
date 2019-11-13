@@ -20,7 +20,9 @@ class BalancePage:
 
         self.alert_message_id = Locators.alert_message_id
 
-        self.balance_span_id = Locators.balance_span_id
+        self.estudante_balance_span_id = Locators.estudante_balance_span_id
+        self.vale_transporte_balance_div_id = Locators.vale_transporte_balance_div_id
+        self.normal_balance_div_id = Locators.normal_balance_div_id
 
     def fill_num_aplicacao(self, num_aplicacao):
         select_num_aplicacao = Select(self.driver.find_element_by_id(self.num_aplicacao_select_id))
@@ -53,7 +55,6 @@ class BalancePage:
         for c in data_nascimento:
             self.driver.find_element_by_id(self.data_nascimento_input_id).send_keys(c)
 
-
     def fill_captcha(self, captcha):
         self.driver.find_element_by_id(self.captcha_answer_input_id).clear()
 
@@ -76,19 +77,38 @@ class BalancePage:
     def get_balance(self, timeout):
         print(f'Aguardando {timeout}s para obter o saldo do cartão...')
         time.sleep(timeout)
+        # CphBody_panVT
+        # CphBody_panComum
         try:
-            balance_text = self.driver.find_element_by_id(self.balance_span_id).text
+            # Estudante
+            if self.check_exists_by_id(self.estudante_balance_span_id):
+                balance_text = self.driver.find_element_by_id(self.estudante_balance_span_id).text
+            else:
+                # Cartao Comum possui VT e seção normal
+                if self.check_exists_by_id(self.normal_balance_div_id):
+                    balance_text = self.driver.find_element_by_id(self.normal_balance_div_id).text
+
+                if self.check_exists_by_id(self.vale_transporte_balance_div_id):
+                    balance_text += "\n\n" + self.driver.find_element_by_id(self.vale_transporte_balance_div_id).text
+
         except Exception:
             alert_content = self.get_alert_message()
 
             if alert_content is not None:
                 print("\n" + self.get_alert_message())
             else:
-                print('Ocorre um erro muito inesperado, desculpe.')
-                
+                print('\nOcorre um erro muito inesperado, desculpe.')
+
             with open('output.html', "w+") as file:
                 file.write(self.driver.page_source)
 
             return None
 
         return balance_text
+
+    def check_exists_by_id(self, id):
+        try:
+            self.driver.find_element_by_id(id)
+        except Exception:
+            return False
+        return True
