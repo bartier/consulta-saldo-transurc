@@ -91,6 +91,8 @@ python src/main.py -n XX -c XXXXXXXX -d X -t DD/MM/AAAA -m <imgur_client_id>
 
 ## Contribuição
 
+O projeto foi criado utilizando o Page Object Model pattern. Isso significa que existe uma classe representando a página de consulta `BalancePage` e ela é utilizada pelo script `src/main.py`.
+
 Este projeto é open-source. Sinta-se à vontade para contribuir!
 
 ## Licença
