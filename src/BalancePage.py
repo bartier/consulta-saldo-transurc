@@ -77,6 +77,9 @@ class BalancePage:
     def get_balance(self, timeout):
         print(f'Aguardando {timeout}s para obter o saldo do cartão...')
         time.sleep(timeout)
+
+        balance_text = None
+
         # CphBody_panVT
         # CphBody_panComum
         try:
